@@ -1,12 +1,19 @@
-@(first: String, second: String, third: String)
+@*************************************
+ * index page.                       *
+ *                                   *
+ * @param msg The message to display *
+ * @param form1                      *
+ *************************************@
+@(msg: String, form1 : Form[Application.SampleForm])
 
 @main("Welcome to Play") {
 
 	<h1>Hello!</h1>
-	<p>this is sample</p>
-	<ol>
-		<li>@first</li>
-		<li>@second</li>
-		<li>@third</li>
-	</ol>
+	<p>@msg</p>
+	@helper.form(action = routes.Application.send){
+		@(helper.inputText (
+			field = form1("message")
+		))
+	}
+	<input type="submit">
 }
