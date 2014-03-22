@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.List;
+
+import models.Message;
 import play.*;
 import play.mvc.*;
 import views.html.*;
@@ -15,9 +18,35 @@ public class Application extends Controller {
 
     // ルートにアクセスした際のAction
     public static Result index() {
+    	// findクラスを利用してエンティティを取得
+    	// index.scala.htmlの引数に設定
+    	List<Message> messages = Message.find.all();
         return ok(index.render(
-        	"データベースのサンプル"
+        	"データベースのサンプル", messages
         ));
+    }
+    
+    // add.htmlにアクセスした際のAction
+    public static Result add(){
+    	Form<Message> f = new Form(Message.class);
+    	return ok(add.render("投稿フォーム", f));
+    }
+
+    // add.htmlにてFormを送信（POST）した際のAction
+    public static Result create() {
+    	// 送信されたフォームの値をバインドしたFormインスタンスを生成 
+    	Form<Message> f = new Form(Message.class).bindFromRequest();
+    	// バリデーション
+    	if(!f.hasErrors()){
+    		// フォームからMessageインスタンスを取得
+    		Message data = f.get();
+    		// 取得した値をDB登録(Ebeanの機能)
+    		data.save();
+    		// リダイレクト
+    		return redirect("/");
+    	} else {
+    		return badRequest(add.render("ERROR", f));
+    	}
     }
 
 //    // sendにアクセスした際のAction
