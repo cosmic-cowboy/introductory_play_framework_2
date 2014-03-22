@@ -1,0 +1,27 @@
+@*************************************
+ * メッセージ追加ページ                  *
+ * @param msg ユーザ向けメッセージ       *
+ * @param Form[models.Message]       *
+ * フォーム用クラス                     *
+ *************************************@
+@(msg: String, form1 : Form[models.Message])
+
+@main("Sample Page") {
+
+	<h1>Hello!</h1>
+	<p>@msg</p>
+	@helper.form(action = routes.Application.create){
+
+		@(helper.inputText (
+			form1("name")
+		))
+		@(helper.inputText (
+			form1("mail")
+		))
+		@(helper.inputText (
+			form1("message")
+		))
+
+		<input type="submit">
+	}
+}

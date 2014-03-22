@@ -1,13 +1,9 @@
-@*************************************
- * index page.                       *
- *                                   *
- * @param msg The message to display *
- * @param form1                      *
- *************************************@
-@(msg: String)
+@(msg: String, messages : List[Message])
 
 @main("Welcome to Play") {
 
 	<h1>Hello!</h1>
 	<p>@msg</p>
+	@* MessageのリストをtoString()出力 *@
+	<pre>@messages</pre>
 }
