@@ -28,16 +28,13 @@ import static org.fest.assertions.Assertions.*;
 public class ApplicationTest {
 
     @Test
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertThat(a).isEqualTo(2);
-    }
-
-    @Test
     public void renderTemplate() {
-        Content html = views.html.index.render("Your new application is ready.");
+    	String assertContent = "何かをいて";
+    	// レンダリングされたコンテンツを取得
+        Content html = views.html.index.render(assertContent, new play.data.Form(controllers.Application.SampleForm.class));
+        // コンテンツタイプとコンテンツのテキストを比較
         assertThat(contentType(html)).isEqualTo("text/html");
-        assertThat(contentAsString(html)).contains("Your new application is ready.");
+        assertThat(contentAsString(html)).contains(assertContent);
     }
 
 
