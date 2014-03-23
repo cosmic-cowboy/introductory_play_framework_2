@@ -4,8 +4,16 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+
+# add page
 GET     /add                        controllers.Application.add()
 POST    /create                     controllers.Application.create()
+
+# update
+GET     /item                       controllers.Application.setitem()
+POST    /edit                       controllers.Application.edit()
+POST    /update                     controllers.Application.update()
+
 # POST    /send                       controllers.Application.send()
 
 # Map static resources from the /public folder to the /assets URL path

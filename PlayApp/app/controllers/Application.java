@@ -40,7 +40,7 @@ public class Application extends Controller {
     	if(!f.hasErrors()){
     		// フォームからMessageインスタンスを取得
     		Message data = f.get();
-    		// 取得した値をDB登録(Ebeanの機能)
+    		// 取得した値をDB登録
     		data.save();
     		// リダイレクト
     		return redirect("/");
@@ -48,6 +48,56 @@ public class Application extends Controller {
     		return badRequest(add.render("ERROR", f));
     	}
     }
+    
+    // /itemにアクセスした際のAction
+    public static Result setitem(){
+    	Form<Message> f = new Form(Message.class);
+    	return ok(item.render("ID番号を入力", f));
+    }
+
+    // /itemにてFormを送信（POST）した際のAction
+    public static Result edit(){
+    	// 送信されたフォームの値をバインドしたFormインスタンスを生成
+    	Form<Message> f = new Form(Message.class).bindFromRequest();
+    	// バリデーション
+    	if(!f.hasErrors()){
+    		// フォームからMessageインスタンスを取得
+    		Message obj = f.get();
+    		// インスタンスからIDを取得
+    		Long id = obj.id;
+    		// IDからエンティティの取得
+    		obj = Message.find.byId(id);
+    		if(obj != null){
+    			// 取得したMessageインスタンスをフォームに設定
+    			f = new Form(Message.class).fill(obj);
+    			// 編集画面(edit)を呼び出す
+    			return ok(edit.render("ID=" + id + "の投稿を編集", f));
+    		} else {
+    			// 検索画面(item)のまま
+    			return ok(item.render("ERROR:IDの投稿が見つかりません",f));
+    		}
+    	} else {
+			// 検索画面(item)のまま
+			return ok(item.render("ERROR:入力に問題があります",f));
+    	}
+    }
+    
+    // /updateにアクセスした際のAction
+    public static Result update(){
+		// フォームからMessageインスタンスを取得
+    	Form<Message> f = new Form(Message.class).bindFromRequest();
+    	if(!f.hasErrors()){
+    		Message data = f.get();
+    		// エンティティの更新
+    		data.update();
+    		// ルートにリダイレクト
+    		return redirect("/");
+    	} else {
+    		// 編集画面(edit)のまま
+			return ok(edit.render("ERROR:再入力してください",f));
+    	}
+    }
+    
 
 //    // sendにアクセスした際のAction
 //    public static Result send() {
