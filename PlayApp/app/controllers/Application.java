@@ -98,7 +98,34 @@ public class Application extends Controller {
     	}
     }
     
+    // /deleteにアクセスした際のAction
+    public static Result delete(){
+		Form<Message> f = new Form(Message.class);
+		return ok(delete.render("ID番号を入力", f));
+    }
 
+    // /deleteにてFormを送信（POST）した際のAction
+    public static Result remove(){
+    	// 送信されたフォームの値をバインドしたFormインスタンスを生成
+    	Form<Message> f = new Form(Message.class).bindFromRequest();
+    	if(!f.hasErrors()){
+    		// フォームからMessageインスタンスを取得
+    		Message message = f.get();
+    		// インスタンスからIDを取得
+    		Long id = message.id;
+    		// IDからエンティティの取得
+    		message = Message.find.byId(id);
+    		if(message != null){
+    			message.delete();
+    			return redirect("/");
+    		} else {
+        		return ok(delete.render("ERROR:そのIDは見つかりません",f));    			
+    		}
+    		
+    	} else {
+    		return ok(delete.render("ERROR:入力にエラーが起こりました",f));
+    	}
+    }
 //    // sendにアクセスした際のAction
 //    public static Result send() {
 //    	// フォームの情報を取得
