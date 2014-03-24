@@ -14,6 +14,10 @@ GET     /item                       controllers.Application.setitem()
 POST    /edit                       controllers.Application.edit()
 POST    /update                     controllers.Application.update()
 
+# delete
+GET     /del                        controllers.Application.delete()
+POST    /remove                     controllers.Application.remove()
+
 # POST    /send                       controllers.Application.send()
 
 # Map static resources from the /public folder to the /assets URL path
