@@ -137,9 +137,10 @@ public class Application extends Controller {
     	if(!f.hasErrors()){
     		String input = f.get().input;
     		// 検索条件を設定
-    		datas = Message.find.where()
-    				.like("name", "%" +input+ "%").orderBy("name")
-    				.findPagingList(10).getPage(0).getList();
+    		String q = "name like "+ "'%" +input+ "%'";
+    		datas = Message.find.where(q).findList();
+//    				.orderBy("name")
+//    				.findPagingList(10).getPage(0).getList();
     	}
 		// 検索結果を返却
     	return ok(find.render("投稿の検索", f, datas));
