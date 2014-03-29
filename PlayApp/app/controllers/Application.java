@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.Member;
 import models.Message;
 import play.*;
 import play.mvc.*;
@@ -22,15 +23,16 @@ public class Application extends Controller {
     	// findクラスを利用してエンティティを取得
     	// index.scala.htmlの引数に設定
     	List<Message> messages = Message.find.all();
+    	List<Member> members = Member.find.all();
         return ok(index.render(
-        	"データベースのサンプル", messages
+        	"データベースのサンプル", messages, members
         ));
     }
     
     // メッセージ追加画面（GET）
     public static Result add(){
     	Form<Message> f = new Form(Message.class);
-    	return ok(add.render("投稿フォーム", f));
+    	return ok(add.render("メッセージ投稿フォーム", f));
     }
 
     // メッセージ追加（POST）
@@ -49,7 +51,30 @@ public class Application extends Controller {
     		return badRequest(add.render("ERROR", f));
     	}
     }
-    
+
+    // メンバー追加画面（GET）
+    public static Result addMember(){
+    	Form<Member> f = new Form(Member.class);
+    	return ok(addMember.render("メンバー登録フォーム", f));
+    }
+
+    // メンバー追加（POST）
+    public static Result createMember() {
+    	// 送信されたフォームの値をバインドしたFormインスタンスを生成 
+    	Form<Member> f = new Form(Member.class).bindFromRequest();
+    	// バリデーション
+    	if(!f.hasErrors()){
+    		// フォームからMemberインスタンスを取得
+    		Member data = f.get();
+    		// 取得した値をDB登録
+    		data.save();
+    		// リダイレクト
+    		return redirect("/");
+    	} else {
+    		return badRequest(addMember.render("ERROR", f));
+    	}
+    }
+
     // メッセージ編集画面の入り口(GET)
     public static Result setitem(){
     	Form<Message> f = new Form(Message.class);

@@ -1,4 +1,5 @@
 @*************************************
+@*************************************
  * メッセージ追加ページ                  *
  * @param msg ユーザ向けメッセージ       *
  * @param Form[models.Message]       *
@@ -6,17 +7,14 @@
  *************************************@
 @(msg: String, form1 : Form[models.Message])
 
-@main("Sample Page") {
+@main("ADD MESSAGE Page") {
 
-	<h1>Hello!</h1>
+	<h1>ADD MESSAGE</h1>
 	<p>@msg</p>
 	@helper.form(action = routes.Application.create){
 
 		@(helper.inputText (
 			form1("name")
-		))
-		@(helper.inputText (
-			form1("mail")
 		))
 		@(helper.inputText (
 			form1("message")

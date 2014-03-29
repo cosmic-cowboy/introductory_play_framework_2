@@ -1,9 +1,14 @@
-@(msg: String, messages : List[Message])
+@(msg: String, messages : List[Message], members : List[Member])
 
 @main("Welcome to Play") {
 
 	<h1>Hello!</h1>
 	<p>@msg</p>
-	@* MessageのリストをtoString()出力 *@
-	<pre>@messages</pre>
+	<hr>
+	<p>Message Model</p>
+	<p>@messages</p>
+
+	<hr>
+	<p>Member Model</p>
+	<p>@members</p>
 }
