@@ -1,0 +1,28 @@
+@*************************************
+ * メッセージ検索ページ                  *
+ * @param msg ユーザ向けメッセージ       *
+ * @param Form[Application.FindForm] *
+ * 検索キーワード用フォーム               *
+ * @param List[Message]              *
+ * 検索結果（メッセージ）                *
+ *************************************@
+
+@(msg: String, form1 : Form[Application.FindForm], datas: List[Message])
+
+@main("Find Page") {
+
+	<h1>Find data</h1>
+	<p>@msg</p>
+	@helper.form(action = routes.Application.find){
+
+		@(helper.inputText (
+			form1("input")
+		))
+		<input type="submit">
+	}
+
+	<hr />
+
+	<p>@datas</p>
+
+}
