@@ -7,6 +7,7 @@ import play.*;
 import play.mvc.*;
 import views.html.*;
 import play.data.*;
+import play.data.validation.Constraints.Required;
 import static play.data.Form.*;
 
 public class Application extends Controller {
@@ -16,7 +17,7 @@ public class Application extends Controller {
 		public String message;
 	}
 
-    // ルートにアクセスした際のAction
+    // トップ画面（GET）
     public static Result index() {
     	// findクラスを利用してエンティティを取得
     	// index.scala.htmlの引数に設定
@@ -26,13 +27,13 @@ public class Application extends Controller {
         ));
     }
     
-    // add.htmlにアクセスした際のAction
+    // メッセージ追加画面（GET）
     public static Result add(){
     	Form<Message> f = new Form(Message.class);
     	return ok(add.render("投稿フォーム", f));
     }
 
-    // add.htmlにてFormを送信（POST）した際のAction
+    // メッセージ追加（POST）
     public static Result create() {
     	// 送信されたフォームの値をバインドしたFormインスタンスを生成 
     	Form<Message> f = new Form(Message.class).bindFromRequest();
@@ -49,13 +50,13 @@ public class Application extends Controller {
     	}
     }
     
-    // /itemにアクセスした際のAction
+    // メッセージ編集画面の入り口(GET)
     public static Result setitem(){
     	Form<Message> f = new Form(Message.class);
     	return ok(item.render("ID番号を入力", f));
     }
 
-    // /itemにてFormを送信（POST）した際のAction
+    // メッセージ編集画面(POST)
     public static Result edit(){
     	// 送信されたフォームの値をバインドしたFormインスタンスを生成
     	Form<Message> f = new Form(Message.class).bindFromRequest();
@@ -82,7 +83,7 @@ public class Application extends Controller {
     	}
     }
     
-    // /updateにアクセスした際のAction
+    // メッセージを更新する（POST）
     public static Result update(){
 		// フォームからMessageインスタンスを取得
     	Form<Message> f = new Form(Message.class).bindFromRequest();
@@ -98,13 +99,13 @@ public class Application extends Controller {
     	}
     }
     
-    // /deleteにアクセスした際のAction
+    // メッセージ削除画面（GET）
     public static Result delete(){
 		Form<Message> f = new Form(Message.class);
 		return ok(delete.render("ID番号を入力", f));
     }
 
-    // /deleteにてFormを送信（POST）した際のAction
+    // メッセージを削除する（POST）
     public static Result remove(){
     	// 送信されたフォームの値をバインドしたFormインスタンスを生成
     	Form<Message> f = new Form(Message.class).bindFromRequest();
@@ -126,6 +127,27 @@ public class Application extends Controller {
     		return ok(delete.render("ERROR:入力にエラーが起こりました",f));
     	}
     }
+
+    // メッセージ検索画面(GET)
+    public static Result find(){
+    	// 検索キーワード
+    	Form<FindForm> f = new Form(FindForm.class).bindFromRequest();
+    	List<Message> datas = null;
+		// 検索キーワードがあるときだけ検索を実行する
+    	if(!f.hasErrors()){
+    		// where() で ExpressionListを取得
+    		// findList() で エンティティをListで返却
+    		datas = Message.find.where().findList();
+    	}
+		// 検索結果を返却
+    	return ok(find.render("投稿の検索", f, datas));
+    	
+    }
+    public static class FindForm {
+    	@Required
+    	public String input;
+    }
+    
 //    // sendにアクセスした際のAction
 //    public static Result send() {
 //    	// フォームの情報を取得
