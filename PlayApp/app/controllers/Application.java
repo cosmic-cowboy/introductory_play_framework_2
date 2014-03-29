@@ -136,8 +136,9 @@ public class Application extends Controller {
 		// 検索キーワードがあるときだけ検索を実行する
     	if(!f.hasErrors()){
     		String input = f.get().input;
+    		String [] inputArray = input.split(",");
     		// 検索条件を設定
-    		datas = Message.find.where().like("name", "%" +input+ "%").findList();
+    		datas = Message.find.where().in("name", inputArray).findList();
     	}
 		// 検索結果を返却
     	return ok(find.render("投稿の検索", f, datas));
