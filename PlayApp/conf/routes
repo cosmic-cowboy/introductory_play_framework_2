@@ -9,6 +9,10 @@ GET     /                           controllers.Application.index()
 GET     /add                        controllers.Application.add()
 POST    /create                     controllers.Application.create()
 
+# add member page
+GET     /addMember                  controllers.Application.addMember()
+POST    /createMember               controllers.Application.createMember()
+
 # update
 GET     /item                       controllers.Application.setitem()
 POST    /edit                       controllers.Application.edit()

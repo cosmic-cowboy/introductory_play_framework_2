@@ -1,17 +1,13 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.*;
 
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
 import play.db.ebean.Model;
-import play.data.validation.*;
 import play.data.validation.Constraints.*;
-import play.libs.F;
 /**
  * 
  * Messageモデルクラス
@@ -43,7 +39,6 @@ public class Message extends Model {
 
 	// 必須項目
 	@Required(message="必須項目です")
-	@ValidateWith(value=IsUrl.class, message="URLで始まるメッセージを記述してください")
 	public String message;
 
 	// 作成日時設定
@@ -62,20 +57,25 @@ public class Message extends Model {
 		return ("[id: " + id + ", name: " + name + ", mail: " + mail
 				+ ", message: " + message + ", date: " + postdate + "]" );
 	}
-
-	// バリデーションクラス
-	// 「http://」ではじまっているかを判定
-	public static class IsUrl extends  play.data.validation.Constraints.Validator<String> {
-		// バリデーションチェック
-		@Override
-		public boolean isValid(String s){
-			return s.toLowerCase().startsWith("http://");
-		}
-		// バリデーションエラーメッセージ
-		@Override
-		public F.Tuple<String, Object[]> getErrorMessageKey(){
-			return new F.Tuple<String, Object[]>("error.invalid", new String[]{});
-		}
+	
+	// 名前からメッセージを探す
+	public static Message findByName(String input){
+		return Message.find.where().eq("name", input).findList().get(0);
 	}
+//
+//	// バリデーションクラス
+//	// 「http://」ではじまっているかを判定
+//	public static class IsUrl extends  play.data.validation.Constraints.Validator<String> {
+//		// バリデーションチェック
+//		@Override
+//		public boolean isValid(String s){
+//			return s.toLowerCase().startsWith("http://");
+//		}
+//		// バリデーションエラーメッセージ
+//		@Override
+//		public F.Tuple<String, Object[]> getErrorMessageKey(){
+//			return new F.Tuple<String, Object[]>("error.invalid", new String[]{});
+//		}
+//	}
 
 }
