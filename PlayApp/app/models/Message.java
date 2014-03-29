@@ -10,8 +10,8 @@ import com.avaje.ebean.annotation.CreatedTimestamp;
 
 import play.db.ebean.Model;
 import play.data.validation.*;
-import play.data.validation.Constraints.Required;
-
+import play.data.validation.Constraints.*;
+import play.libs.F;
 /**
  * 
  * Messageモデルクラス
@@ -35,13 +35,15 @@ public class Message extends Model {
 	public Long id;
 	
 	// 必須項目
-	@Required
+	@Required(message="必須項目です")
 	public String name;
 
+	@Email(message="メールアドレスを記入してください")
 	public String mail;
 
 	// 必須項目
-	@Required
+	@Required(message="必須項目です")
+	@ValidateWith(value=IsUrl.class, message="URLで始まるメッセージを記述してください")
 	public String message;
 
 	// 作成日時設定
@@ -60,4 +62,20 @@ public class Message extends Model {
 		return ("[id: " + id + ", name: " + name + ", mail: " + mail
 				+ ", message: " + message + ", date: " + postdate + "]" );
 	}
+
+	// バリデーションクラス
+	// 「http://」ではじまっているかを判定
+	public static class IsUrl extends  play.data.validation.Constraints.Validator<String> {
+		// バリデーションチェック
+		@Override
+		public boolean isValid(String s){
+			return s.toLowerCase().startsWith("http://");
+		}
+		// バリデーションエラーメッセージ
+		@Override
+		public F.Tuple<String, Object[]> getErrorMessageKey(){
+			return new F.Tuple<String, Object[]>("error.invalid", new String[]{});
+		}
+	}
+
 }
