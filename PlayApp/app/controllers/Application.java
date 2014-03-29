@@ -135,9 +135,9 @@ public class Application extends Controller {
     	List<Message> datas = null;
 		// 検索キーワードがあるときだけ検索を実行する
     	if(!f.hasErrors()){
-    		// where() で ExpressionListを取得
-    		// findList() で エンティティをListで返却
-    		datas = Message.find.where().findList();
+    		String input = f.get().input;
+    		// 検索条件を設定
+    		datas = Message.find.where().eq("name", input).findList();
     	}
 		// 検索結果を返却
     	return ok(find.render("投稿の検索", f, datas));
