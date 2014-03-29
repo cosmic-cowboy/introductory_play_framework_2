@@ -137,7 +137,7 @@ public class Application extends Controller {
     	if(!f.hasErrors()){
     		String input = f.get().input;
     		// 検索条件を設定
-    		datas = Message.find.where().eq("name", input).findList();
+    		datas = Message.find.where().like("name", "%" +input+ "%").findList();
     	}
 		// 検索結果を返却
     	return ok(find.render("投稿の検索", f, datas));
