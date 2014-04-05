@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -49,8 +51,11 @@ public class Message extends Model {
 	// cascadeはMessageが更新されたとき、関連するMemberを更新するかを示したもの
 	// ALLで関連するすべて（ここではMember）を更新することになる
 	// Messageテーブルにmember_idが追加される
-	@ManyToOne(cascade=CascadeType.ALL)
-	public Member member;
+	// mappedBy:関連するMemberのフィールド名(messages)に関連づけられている
+	// mappedBYはどちらが主従関係を明確にする
+	// そもそもManyToManyなんて使うべきではない。
+	@ManyToMany(mappedBy="messages",cascade=CascadeType.ALL)
+	public List<Member> members = new ArrayList<Member>();
 	
 	// Finderクラスは保管するオブジェクトを総称型で指定できる
 	// ここでは<Long, Message>
@@ -61,9 +66,15 @@ public class Message extends Model {
 	
 	@Override
 	public String toString(){
+
+		String mem = "{id:";
+		for(Member m : members){
+			mem += " " + m.name;
+		}
+		mem += "}";
 		return ("[id: " + id 
-				+ ", member:<" + member.name + ", mail: " + member.mail
-				+ ">, message: " + message + ", date: " + postdate + "]" );
+				+ ", member:" + mem
+				+ ", message: " + message + ", date: " + postdate + "]" );
 	}
 	
 	// 名前からメッセージを探す

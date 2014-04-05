@@ -44,7 +44,12 @@ public class Application extends Controller {
     		// フォームからMessageインスタンスを取得
     		// ユーザ名はMemberテーブルに登録されていなければならなくなる
     		Message data = f.get();
-    		data.member = Member.findByName(data.name);
+    		String [] names = data.name.split(",");
+    		for (String name : names){
+    			Member m = Member.findByName(name);
+        		data.members.add(m);
+        		m.messages.add(data);
+    		}
     		// 取得した値をDB登録
     		data.save();
     		// リダイレクト
