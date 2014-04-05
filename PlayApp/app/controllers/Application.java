@@ -42,7 +42,9 @@ public class Application extends Controller {
     	// バリデーション
     	if(!f.hasErrors()){
     		// フォームからMessageインスタンスを取得
+    		// ユーザ名はMemberテーブルに登録されていなければならなくなる
     		Message data = f.get();
+    		data.member = Member.findByName(data.name);
     		// 取得した値をDB登録
     		data.save();
     		// リダイレクト
