@@ -1,7 +1,15 @@
 @(message: String)
 
-@main("Welcome to Play") {
+<!DOCTYPE html>
 
-    @play20.welcome(message, style = "Java")
-
-}
+<html>
+    <head>
+        <title>sample</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    </head>
+    <body>
+        <h1>Hello!</h1>
+        <p>@message</p>
+    </body>
+</html>
