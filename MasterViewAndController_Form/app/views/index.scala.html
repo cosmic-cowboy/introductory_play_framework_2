@@ -1,7 +1,12 @@
 @(message: String)
 
-@main("Welcome to Play") {
+@main("Sample Page") {
 
-    @play20.welcome(message, style = "Java")
+    <h1>Hello!</h1>
+    <p>@message</p>
+    <form action="/" method="post">
+    	<input type="text" name="input">
+    	<input type="submit">
+    </form>
 
 }
