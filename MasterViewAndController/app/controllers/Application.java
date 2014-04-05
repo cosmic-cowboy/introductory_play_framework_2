@@ -14,4 +14,12 @@ public class Application extends Controller {
         return ok(index.render("これはテンプレートのテストです"));
     }
 
+
+    public static Result redirect() {
+
+    	// トップページにリダイレクト
+    	// アドレスを静的に記述している
+        return redirect("/");
+    }
+
 }
