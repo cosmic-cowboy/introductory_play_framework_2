@@ -8,9 +8,12 @@ import views.html.*;
 public class Application extends Controller {
 
     public static Result index() {
-    	// Controllerだけでページを作成する
+
     	// okメソッドは文字列をResultインスタンにして返却する
-        return ok("This is test");
+    	// HTMLで出力するにはasメソッドを使って、形式を明確にする
+    	// 記述形式はHTMLのContent-typeを設定する
+        return ok("<html><body><h1>Hello!</h1><p>This is Test.</p></body></html>")
+        		.as("text/html");
     }
 
 }
