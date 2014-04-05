@@ -9,9 +9,9 @@ public class Application extends Controller {
 
     public static Result index() {
 
-    	// okメソッドは文字列をResultインスタンにして返却する
-    	// index.scala.htmlをレンダリングしている
-        return ok(index.render("これはテンプレートのテストです"));
+    	// Http.Request：リクエストを管理するクラス
+    	String msg = request().getQueryString("msg");
+        return ok(index.render("引数は：" + msg + "です"));
     }
 
 
