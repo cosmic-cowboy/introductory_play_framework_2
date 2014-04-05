@@ -45,6 +45,13 @@ public class Message extends Model {
 	@CreatedTimestamp	
 	public Date postdate;
 	
+	// OneToOne で紐づくメンバー
+	// cascadeはMessageが更新されたとき、関連するMemberを更新するかを示したもの
+	// ALLで関連するすべて（ここではMember）を更新することになる
+	// Messageテーブルにmember_idが追加される
+	@OneToOne(cascade=CascadeType.ALL)
+	public Member member;
+	
 	// Finderクラスは保管するオブジェクトを総称型で指定できる
 	// ここでは<Long, Message>
 	// これはプライマリキーのクラスとエンティティのクラス
@@ -54,8 +61,9 @@ public class Message extends Model {
 	
 	@Override
 	public String toString(){
-		return ("[id: " + id + ", name: " + name + ", mail: " + mail
-				+ ", message: " + message + ", date: " + postdate + "]" );
+		return ("[id: " + id 
+				+ ", member:<" + member.name + ", mail: " + member.mail
+				+ ">, message: " + message + ", date: " + postdate + "]" );
 	}
 	
 	// 名前からメッセージを探す
