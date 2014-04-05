@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import play.data.validation.Constraints.*;
@@ -21,6 +24,9 @@ public class Member extends Model{
 	public String mail;
 	
 	public String tel;
+	
+	@OneToMany
+	public List<Message> messages = new ArrayList<Message>();
 
 	// Finderクラスは保管するオブジェクトを総称型で指定できる
 	// ここでは<Long, Member>
@@ -31,7 +37,14 @@ public class Member extends Model{
 	
 	@Override
 	public String toString(){
-		return ("[id: " + id + ", name: " + name + ", mail: " + mail
+		String ids = "{id:";
+		for(Message m : messages){
+			ids += " " + m.id;
+		}
+		ids += "}";
+		
+		return ("[id: " + id + ", message: " + ids
+				+ ", name: " + name + ", mail: " + mail
 				+ ", tel: " + tel + "]" );
 	}
 	

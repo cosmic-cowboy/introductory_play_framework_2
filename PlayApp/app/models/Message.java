@@ -49,7 +49,7 @@ public class Message extends Model {
 	// cascadeはMessageが更新されたとき、関連するMemberを更新するかを示したもの
 	// ALLで関連するすべて（ここではMember）を更新することになる
 	// Messageテーブルにmember_idが追加される
-	@OneToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	public Member member;
 	
 	// Finderクラスは保管するオブジェクトを総称型で指定できる
