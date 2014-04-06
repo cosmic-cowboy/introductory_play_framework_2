@@ -1,4 +1,4 @@
-@(message: String, form1: Form[models.Message], members: List[models.Member])
+@(message: String, form1: Form[models.Message], opts: List[Tuple2[String, String]])
 @main("Sample Page") {
 
     <h1>Hello!</h1>
@@ -6,17 +6,11 @@
 
 	@helper.form(action = routes.Application.createMessage){
 	
-		<dl class="" id="name_field">
-		<dt><label for="name">name</label></dt>
-		<dd>
-			<select name="name" id="name_field">
-		
-			@for(mem <- members){
-				<option>@mem.name</option>
-			}
-		
-			</select>
-		</dd>
+		@(helper.select(
+			form1("name"),
+			options = opts
+		))
+
 		@(helper.textarea (
 			form1("message")
 		))
