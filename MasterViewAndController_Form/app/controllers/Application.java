@@ -3,6 +3,7 @@ package controllers;
 import java.util.Date;
 import java.util.List;
 
+import models.Member;
 import models.Message;
 import play.data.Form;
 import play.mvc.Controller;
@@ -106,6 +107,36 @@ public class Application extends Controller {
     }
 
 
+    //メッセージ追加画面（GET）
+    public static Result addMessage() {
+    	
+    	// 入力フォーム
+    	Form<Message> f = new Form(Message.class);
+    	// メンバー一覧を取得
+    	List<Member> members = Member.find.select("name").findList();
+		return ok(addMessage.render("please set form.", f,  members));
+    	
+    }
+
+    // メッセージ追加（POST）
+    public static Result createMessage() {
+    	
+		// 送信されたフォームの値をバインドしたFormインスタンスを生成 
+    	Form<Message> f = new Form(Message.class).bindFromRequest();
+    	// バリデーション
+    	if(!f.hasErrors()){
+    		// フォームからMessageインスタンスを取得
+    		// ユーザ名はMemberテーブルに登録されていなければならなくなる
+    		Message data = f.get();
+    		// 取得した値をDB登録
+    		data.save();
+    		// リダイレクト
+    		return redirect("/");
+    	} else {
+        	List<Tuple2<String, String>> opts = new ArrayList<Tuple2<String, String>>();
+    		return badRequest(addMessage.render("ERROR", f, opts));
+    	}
+    }
 
     // メンバー追加画面（GET）
     public static Result addMember(){

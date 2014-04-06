@@ -13,6 +13,8 @@ POST    /repeat                     controllers.Application.sendRepeat()
 
 # RepeatMessage page
 GET     /repeatMessage              controllers.Application.repeatMessage()
+GET     /addMessage                 controllers.Application.addMessage()
+POST    /createMessage              controllers.Application.createMessage()
 
 
 # add member page
