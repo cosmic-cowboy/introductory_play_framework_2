@@ -1,14 +1,34 @@
 @(msg: String, messages : List[Message], members : List[Member])
 
+@showMsg(c:String, s:Object) = {
+	<td class=@c>@s</td>
+}
 @main("Welcome to Play") {
 
 	<h1>Hello!</h1>
 	<p>@msg</p>
 	<hr>
-	<p>Message Model</p>
-	<p>@messages</p>
+	
+		<table>
+		<tr>
+			<th>id</th>
+			<th>Name</th>
+			<th>Message</th>
+		</tr>
+		@for(msg <- messages){
+			<tr>
+			@if(msg.id % 2 == 0){
+				@showMsg("a",msg.id)
+				@showMsg("a",msg.name)
+				@showMsg("a",msg.message)
 
-	<hr>
-	<p>Member Model</p>
-	<p>@members</p>
+			} else {
+				@showMsg("b",msg.id)
+				@showMsg("b",msg.name)
+				@showMsg("b",msg.message)
+			}
+			</tr>
+		}
+		
+	</table>
 }
