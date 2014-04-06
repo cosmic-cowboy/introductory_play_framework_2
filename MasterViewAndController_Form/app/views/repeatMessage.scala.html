@@ -1,5 +1,8 @@
 @(message: String, messages : List[Message])
 
+@showMsg(c:String, s : Object) = {
+	<td class=@c>@s</td>	
+}
 @main("Sample Page") {
 
     <h1>Hello!</h1>
@@ -14,15 +17,14 @@
 		@for(msg <- messages){
 			<tr>
 			@if(msg.id % 2 == 0){
-				<td class="a">@msg.id</td>
-				<td class="a">@msg.name</td>
-				<td class="a">@msg.message</td>
+				@showMsg("a",msg.id)
+				@showMsg("a",msg.name)
+				@showMsg("a",msg.message)
 
 			} else {
-				<td class="b">@msg.id</td>
-				<td class="b">@msg.name</td>
-				<td class="b">@msg.message</td>
-
+				@showMsg("b",msg.id)
+				@showMsg("b",msg.name)
+				@showMsg("b",msg.message)
 			}
 			</tr>
 		}
