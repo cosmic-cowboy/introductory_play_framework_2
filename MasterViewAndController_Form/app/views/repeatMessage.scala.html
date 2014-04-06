@@ -1,0 +1,23 @@
+@(message: String, messages : List[Message])
+
+@main("Sample Page") {
+
+    <h1>Hello!</h1>
+    <p>@message</p>
+
+	<table>
+		<tr>
+			<th>id</th>
+			<th>Name</th>
+			<th>Message</th>
+		</tr>
+		@for(msg <- messages){
+			<tr>
+				<td>@msg.id</td>
+				<td>@msg.name</td>
+				<td>@msg.message</td>
+			</tr>
+		}
+		
+	</table>
+}
