@@ -11,6 +11,7 @@ import views.html.*;
 
 public class Application extends Controller {
 
+    // 様々な入力形式の入力フォームに対応する入出力インタフェース
 	public static class SampleForm {
 		public String input;
 		public String pass;
@@ -22,6 +23,7 @@ public class Application extends Controller {
 	}
 	
 	
+    // 様々な入力形式の入力フォームの値を表示する
     public static Result index() {
     	
     	// 初期値を設定する
@@ -36,6 +38,7 @@ public class Application extends Controller {
     	
     }
 
+    // 様々な入力形式の入力フォームからの値を受け取り、表示可能な状態にして返す
     public static Result send() {
     	// フォームに代入された値を取得する
     	Form<SampleForm> f = new Form(SampleForm.class).bindFromRequest();
@@ -58,12 +61,14 @@ public class Application extends Controller {
     	
     }
 
+    // 複数入力可能な可変の入力フォーム
 	public static class RepeatForm {
 	    // フィールドは必ずpublicを設定する
 	    // そうしないと不可視になって値を設定・取得できなくなる場合がある
 		public List<String> inputs;
 	}
     
+    // 複数入力可能な可変の入力フォームからの値を表示する
     public static Result repeat() {
     	
     	Form<RepeatForm> form = new Form(RepeatForm.class);
@@ -72,6 +77,7 @@ public class Application extends Controller {
     	
     }
 
+    // 複数入力可能な可変の入力フォームからの値を受け取り、表示可能な状態にして返す
     public static Result sendRepeat() {
     	
     	Form<RepeatForm> f = new Form(RepeatForm.class).bindFromRequest();
@@ -91,11 +97,14 @@ public class Application extends Controller {
     	
     }
 
+    // メッセージを繰り返し表示する
     public static Result repeatMessage() {
     	
     	List<Message> messages = Message.find.all();
 		return ok(repeatMessage.render("please set form.", messages));
     	
     }
-    
+
+
+
 }
