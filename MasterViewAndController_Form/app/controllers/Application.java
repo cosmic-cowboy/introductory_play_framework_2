@@ -1,15 +1,24 @@
 package controllers;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import models.Member;
 import models.Message;
 import play.data.Form;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.Tuple2;
@@ -179,16 +188,54 @@ public class Application extends Controller {
     // ajaxメソッド(POST)
     public static Result postAjax() {
     	String input = request().body().asFormUrlEncoded().get("input")[0];
-    	// Jsonのノード
-    	ObjectNode result = Json.newObject();
-    	if(input == null){
-    		result.put("status", "BAD");
-    		result.put("message", "Can't get sending data...");
-    		return badRequest(result);
+    	Member mem = Member.findByName(input);
+    	// DocumentBuilderFactory作成
+    	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    	String str = "<xml><root><err>ERROR!</err></root>";
+    	Document doc = null;
+
+    	try {
+
+    		// DocumentBuilderで新しいDocoumentを生成
+			doc = factory.newDocumentBuilder().newDocument();
+			
+			// 組み込むElementを作成
+    		Element root = doc.createElement("data");
+    		Element el = doc.createElement("name");
+			// 組み込み
+    		el.appendChild(doc.createTextNode(mem.name));
+    		root.appendChild(el);
+    		
+    		el = doc.createElement("mail");
+    		el.appendChild(doc.createTextNode(mem.mail));
+    		root.appendChild(el);
+    		
+    		el = doc.createElement("tel");
+    		el.appendChild(doc.createTextNode(mem.tel));
+    		root.appendChild(el);
+    		
+			// 組み込み
+    		doc.appendChild(root);
+    		
+    		// XMLからテキストの生成
+    		// TransformerFactory生成
+    		TransformerFactory tFactory = TransformerFactory.newInstance();
+    		StringWriter writer = new StringWriter();
+    		StreamResult stream = new StreamResult(writer);
+    		Transformer trans;
+				trans = tFactory.newTransformer();
+			
+    		trans.transform(new DOMSource(doc.getDocumentElement()), stream);
+    		str = stream.getWriter().toString();
+    		
+		} catch (ParserConfigurationException | TransformerException e) {
+			e.printStackTrace();
+		}
+    	
+    	if(doc == null){
+    		return badRequest(str);
     	} else {
-    		result.put("status", "OK");
-    		result.put("message", input);
-    		return ok(result);
+    		return ok(str);
     	}
     }
 }
