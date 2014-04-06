@@ -107,4 +107,27 @@ public class Application extends Controller {
 
 
 
+    // メンバー追加画面（GET）
+    public static Result addMember(){
+    	Form<Member> f = new Form(Member.class);
+    	return ok(addMember.render("メンバー登録フォーム", f));
+    }
+
+    // メンバー追加（POST）
+    public static Result createMember() {
+    	// 送信されたフォームの値をバインドしたFormインスタンスを生成 
+    	Form<Member> f = new Form(Member.class).bindFromRequest();
+    	// バリデーション
+    	if(!f.hasErrors()){
+    		// フォームからMemberインスタンスを取得
+    		Member data = f.get();
+    		// 取得した値をDB登録
+    		data.save();
+    		// リダイレクト
+    		return redirect(routes.Application.index());
+    	} else {
+    		return badRequest(addMember.render("ERROR", f));
+    	}
+    }
+
 }

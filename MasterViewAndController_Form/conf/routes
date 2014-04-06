@@ -14,5 +14,10 @@ POST    /repeat                     controllers.Application.sendRepeat()
 # RepeatMessage page
 GET     /repeatMessage              controllers.Application.repeatMessage()
 
+
+# add member page
+GET     /addMember                  controllers.Application.addMember()
+POST    /createMember               controllers.Application.createMember()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
