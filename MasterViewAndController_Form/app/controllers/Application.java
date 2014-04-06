@@ -3,11 +3,11 @@ package controllers;
 import java.util.Date;
 import java.util.List;
 
+import models.Message;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
-import views.html.repeat;
+import views.html.*;
 
 public class Application extends Controller {
 
@@ -90,4 +90,12 @@ public class Application extends Controller {
     	}
     	
     }
+
+    public static Result repeatMessage() {
+    	
+    	List<Message> messages = Message.find.all();
+		return ok(repeatMessage.render("please set form.", messages));
+    	
+    }
+    
 }
