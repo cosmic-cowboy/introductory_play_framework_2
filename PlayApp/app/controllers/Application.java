@@ -25,7 +25,7 @@ public class Application extends Controller {
     	List<Message> messages = Message.find.all();
     	List<Member> members = Member.find.all();
         return ok(index.render(
-        	"データベースのサンプル", messages, members
+        	"投稿メッセージ", messages, members
         ));
     }
     
