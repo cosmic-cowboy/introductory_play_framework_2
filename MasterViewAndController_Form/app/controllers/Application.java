@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import models.Member;
 import models.Message;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.Tuple2;
@@ -167,4 +170,25 @@ public class Application extends Controller {
     	}
     }
 
+    // ajaxメソッド(GET)
+    public static Result getAjax() {
+    	List<Message> msgs = Message.find.all();
+    	return ok(ajax.render("please set form.", msgs));
+    }
+
+    // ajaxメソッド(POST)
+    public static Result postAjax() {
+    	String input = request().body().asFormUrlEncoded().get("input")[0];
+    	// Jsonのノード
+    	ObjectNode result = Json.newObject();
+    	if(input == null){
+    		result.put("status", "BAD");
+    		result.put("message", "Can't get sending data...");
+    		return badRequest(result);
+    	} else {
+    		result.put("status", "OK");
+    		result.put("message", input);
+    		return ok(result);
+    	}
+    }
 }
