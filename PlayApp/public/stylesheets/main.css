@@ -10,3 +10,27 @@ h1 {
 	padding:3px;
 }
 
+th {
+	background-color:#66aa66;
+	color:white;
+	font-weight : bold;
+	padding:2px 10px;
+}
+
+td {
+	background-color:#ccffdd;
+	color:#003300;
+	text-align : center;
+	padding:2px;
+}
+
+
+/* smacss的にtdは不要なので... */
+/* 普段なら td:nth-child(even)で良い気がする */
+.a {
+	background-color:#dddddd;
+}
+
+.b {
+	background-color:#aaaaaa;
+}
