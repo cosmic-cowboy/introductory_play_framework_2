@@ -1,0 +1,15 @@
+@(message: String, form1: Form[Application.RepeatForm])
+@main("Sample Page") {
+
+    <h1>Hello!</h1>
+    <p>@message</p>
+
+	@helper.form(action = routes.Application.sendRepeat){
+	
+		@helper.repeat(form1("inputs"), min = 3){fld =>
+			@helper.inputText(fld)
+		}
+
+		<input type="submit" >
+	}
+}

@@ -1,12 +1,13 @@
 package controllers;
 
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
+import views.html.repeat;
 
 public class Application extends Controller {
 
@@ -53,6 +54,39 @@ public class Application extends Controller {
     		return ok(index.render(res, f));
     	} else {
     		return badRequest(index.render("ERROR",f));
+    	}
+    	
+    }
+
+	public static class RepeatForm {
+	    // フィールドは必ずpublicを設定する
+	    // そうしないと不可視になって値を設定・取得できなくなる場合がある
+		public List<String> inputs;
+	}
+    
+    public static Result repeat() {
+    	
+    	Form<RepeatForm> form = new Form(RepeatForm.class);
+    	// 設定された初期値をフォームに代入する
+		return ok(repeat.render("please set form.", form));
+    	
+    }
+
+    public static Result sendRepeat() {
+    	
+    	Form<RepeatForm> f = new Form(RepeatForm.class).bindFromRequest();
+
+    	if(!f.hasErrors()){
+    		RepeatForm rf = f.get();
+    		String res = "value: ";
+    		for(String s : rf.inputs){
+    			res += " " + s;
+    		}
+    		rf.inputs.add("");
+    		return ok(repeat.render(res, f));
+    	} else {
+    		return ok(repeat.render("ERROR", f));
+    		
     	}
     	
     }
