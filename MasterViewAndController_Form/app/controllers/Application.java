@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import models.Message;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.Tuple2;
 import views.html.*;
 
 public class Application extends Controller {
@@ -114,7 +116,11 @@ public class Application extends Controller {
     	Form<Message> f = new Form(Message.class);
     	// メンバー一覧を取得
     	List<Member> members = Member.find.select("name").findList();
-		return ok(addMessage.render("please set form.", f,  members));
+    	List<Tuple2<String, String>> opts = new ArrayList<Tuple2<String, String>>();
+    	for(Member member : members){
+    		opts.add(new Tuple2(member.name, member.name));
+    	}
+		return ok(addMessage.render("please set form.", f,  opts));
     	
     }
 
