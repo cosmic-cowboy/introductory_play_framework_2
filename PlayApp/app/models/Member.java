@@ -25,7 +25,7 @@ public class Member extends Model{
 	
 	public String tel;
 	
-	@ManyToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	public List<Message> messages = new ArrayList<Message>();
 
 	// Finderクラスは保管するオブジェクトを総称型で指定できる
