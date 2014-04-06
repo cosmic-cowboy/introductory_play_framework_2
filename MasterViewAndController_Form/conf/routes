@@ -21,5 +21,10 @@ POST    /createMessage              controllers.Application.createMessage()
 GET     /addMember                  controllers.Application.addMember()
 POST    /createMember               controllers.Application.createMember()
 
+
+# add member page
+GET     /ajax                       controllers.Application.getAjax()
+POST    /ajax                       controllers.Application.postAjax()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
