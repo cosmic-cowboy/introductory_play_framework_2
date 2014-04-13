@@ -72,7 +72,13 @@ public class CheckModelService implements ModelService<Check>{
 	 * @return
 	 */
 	public Option<Integer> getMaxPage() {
-		return null;
+		// EbeanのModelクラスであるCheckクラスを指定
+		Finder<Long, Check> find = ModelUtil.getFinder(Check.class);
+		return OptionUtil.apply(
+				find.order().asc("created")
+					.findPagingList(CheckYouSetting.LIMIT)
+					.getTotalPageCount()
+				);
 	}
 
 }
