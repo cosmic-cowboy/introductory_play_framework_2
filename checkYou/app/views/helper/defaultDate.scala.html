@@ -1,4 +1,4 @@
 @(date:java.util.Date)
-<span>
-	@{"%tY/%<tm/%<td" format date;}
-</span>
+@defining(models.view.DateFormatter.formatDefaultDate(date)){ d => 
+	<span class="myDate">@d</span>
+}
