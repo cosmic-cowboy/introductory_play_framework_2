@@ -1,7 +1,7 @@
-@(message: String)
+@(message: String, date:java.util.Date)
 
 @layout.main("Welcome to Play") {
 
-    @play20.welcome(message, style = "Java")
+    @helper.defaultDate(date)
 
 }
