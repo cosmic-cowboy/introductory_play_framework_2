@@ -92,7 +92,11 @@ public class Checks extends Apps {
     					ConfigUtil.get("checkYou.setting.message.recentDescriptionNone").getOrElse("")));
     }
 
-
+    
+    /**
+     * ヘルパーメソッド
+     */
+    
     /**
      * バリデーションエラーメッセージを表示し、トップページへ戻る
      *
