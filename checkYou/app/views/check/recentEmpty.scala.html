@@ -1,7 +1,11 @@
-@(message: String, date:java.util.Date)
+@(title: String, message: String)
 
-@layout.main("Welcome to Play") {
+@import layout._
+@import helper._
 
-    @helper.defaultDate(date)
+@layout.main(title) {
+
+	<h2>@title</h2>
+	<p>@message</p>
 
 }

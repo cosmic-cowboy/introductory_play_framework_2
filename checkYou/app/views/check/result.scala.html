@@ -1,7 +1,23 @@
-@(message: String, date:java.util.Date)
+@(title: String, check:models.entity.Check)
 
-@layout.main("Welcome to Play") {
+@import layout._
+@import helper._
 
-    @helper.defaultDate(date)
+@layout.main(title) {
+
+	<div class="check-result">
+		<h2 id="title">@title</h2>
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">@{check.getName}さん</h3>
+			</div>
+			<div class="panel-body">
+				<p id="check-result-text" class="check-result-text">@check.getResult</p>
+				<p>シェア用URL：
+					<a href="@routes.Checks.resultId(check.getId).absoluteURL()">@routes.Checks.resultId(check.getId).absoluteURL()</a>
+				</p>
+			</div>		
+		</div>
+	</div>
 
 }
