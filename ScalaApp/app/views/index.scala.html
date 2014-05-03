@@ -1,7 +1,11 @@
-@(message: String)
+@(message: String, form1:Form[Application.FormData])
 
 @main("Welcome to Play") {
 
-    @play20.welcome(message)
+    <h1>@message</h1>
+    @helper.form(action = routes.Application.send){
+    	@helper.inputText(form1("input"))
+    	<input type="submit">
+    }
 
 }
