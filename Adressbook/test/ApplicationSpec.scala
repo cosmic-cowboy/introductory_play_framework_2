@@ -15,20 +15,26 @@ class ApplicationSpec extends Specification {
 
   "Application" should {
 
-	  "123 == 123" in {
-		  123 must beEqualTo(123);
+	  "render add page" in {
+		  running(FakeApplication()){
+			  val home = route(FakeRequest(GET, "/add")).get
+			  contentAsString(home) must contain ("住所録登録");
+		  }
 	  }
 	  
-	  "123 > 100" in {
-		  123 must be_>(100);
+	  "send 404 on a bad request" in {
+		  running(FakeApplication()){
+			  route(FakeRequest(GET, "/boum")) must beNone;
+		  }
 	  }
-	  
-	  "hello contain" in {
-		  "Hi! hello everybody" must contain("hello");
-	  }
-	  
-	  "good start" in {
-		  "good morning" must startingWith("good");
+
+	  "render the index page" in {
+		  running(FakeApplication()){
+			  val home = route(FakeRequest(GET, "/")).get
+			  status(home) must equalTo (OK);
+			  contentType(home) must beSome.which(_ == "text/html");
+			  contentAsString(home) must contain("住所録一覧");
+		  }
 	  }
 	  
   }
