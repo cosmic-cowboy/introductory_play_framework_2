@@ -1,14 +1,20 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-
-import views.html.*;
+import play.libs.F.Option;
+import play.mvc.Controller;
+import play.mvc.Result;
+import utils.OptionUtil;
+import views.html.index;
 
 public class Application extends Controller {
 
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+    	// セッションを追加する
+    	// アクセスしてきたユーザにセッションを返すため
+    	session("sessionText", "セッションに格納しました");
+    	// セッションから値の取得
+    	Option<String> ops = OptionUtil.applyWithString(session("sessionText"));
+        return ok(index.render(ops.getOrElse("セッションがない")));
     }
 
 }
