@@ -1,7 +1,19 @@
-@(message: String)
+@(message: String, data : List[AddressBook])
 
 @main("Welcome to Play") {
 
-    @play20.welcome(message)
+    <h1>@message</h1>
+
+	<table border="1">
+	@for(obj:AddressBook <- data){
+		<tr>
+			<td>@obj.id</td>
+			<td>@obj.name</td>
+			<td>@obj.age</td>
+			<td>@obj.tel</td>
+			<td>@obj.address</td>
+		</tr>
+	}
+	</table>
 
 }
