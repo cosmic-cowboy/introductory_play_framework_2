@@ -1,20 +1,32 @@
-@(message: String, form1: Form[Application.SampleForm])
+@(sessionText: String, cookieName:String, cookieValue:String, form1: Form[Application.SampleForm])
 @import helper._
 @main("Sample Page") {
 
-    <h1>Hello!</h1>
+    <h1>セッションの値とクッキーの値を入力する</h1>
     
-    <p>セッションの値：@message</p>
-
     @form(action = routes.Application.send){
 		@(inputText (
-			field = form1("input"),
+			field = form1("sessionInput"),
 			args = 'size->30,
 			'_label -> "セッションに入れる値",
 			'_help -> "セッションに入れる値を入力してください"
 		))
+		@(inputText (
+			field = form1("cookieInput"),
+			args = 'size->30,
+			'_label -> "cookie(myName)に入れる値",
+			'_help -> "cookie(myName)に入れる値を入力してください"
+		))
 		<input type="submit">
 	}
+
+    <h1>セッションの値とクッキーの値</h1>
+    <p>セッションの値：@sessionText</p>
+    
+    <p>cookieの名前：@cookieName</p>
+    <p>cookieの値：@cookieValue</p>
+    <p>※cookieは30秒で切れます</p>
+    <p>※discardCookieと入力するとcookieが削除されます</p>
 	
 }
 

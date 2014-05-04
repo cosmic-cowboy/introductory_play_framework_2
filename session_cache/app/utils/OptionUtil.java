@@ -12,4 +12,12 @@ public class OptionUtil {
 			
 		}
 	}
+	
+	public static <A> F.Option<A> apply(A value){
+		if(value != null){
+			return F.Option.Some(value);
+		} else {
+			return F.Option.None();
+		}
+	}
 }
