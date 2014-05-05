@@ -1,15 +1,20 @@
 package controllers;
 
 import static play.data.Form.form;
-
 import models.Login;
+import models.Secured;
 import play.data.Form;
 import play.filters.csrf.AddCSRFToken;
 import play.filters.csrf.RequireCSRFCheck;
 import play.mvc.*;
+import play.mvc.Security.Authenticated;
 import views.html.*;
 public class Application extends Controller {
 
+    /**
+     * @return
+     */
+	@Authenticated(Secured.class)
     public static Result index() {
         return ok(index.render("Your new application is ready."));
     }
@@ -49,9 +54,15 @@ public class Application extends Controller {
     	}
     }
 
-
+    /**
+     * Sessionを空にして、ログイン画面に遷移する
+     * Authenticated：認証済でないユーザーはアクセス不可にするため
+     * @return
+     */
+    @Authenticated(Secured.class)
     public static Result logout() {
-        return TODO;
+    	session().clear();
+        return redirect(routes.Application.login());
     }
 
 
