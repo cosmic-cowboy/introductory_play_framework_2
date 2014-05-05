@@ -23,7 +23,7 @@ public class Application extends Controller {
     	// ユーザー名をセッションに保持
     	session("username", username);
     	// 画面を表示
-    	return ok(draggable.render("WebSocket Sample"), username);
+    	return ok(draggable.render("WebSocket Sample", username));
     }
     
     /**
@@ -50,6 +50,6 @@ public class Application extends Controller {
     				ex.printStackTrace();
     			}
     		};
-    	}
+    	};
     }
 }

@@ -1,7 +1,17 @@
-@(message: String)
+@(message: String, username:String)
 
-@main("Welcome to Play") {
+@main(message) {
 
-    @play20.welcome(message, style = "Java")
+    <div class="draggable panel panel-primary panel-websocket">
+   	    <div class="panel-heading">
+   	    	みんなでドラッグ可能なパネル
+   	    </div>
+   	    <div class="panel-body">
+   	    	@(username)さんとしてのアクセス
+   	    </div>
+   	    <div class="panel-footer">
+   	    	@(new java.util.Date().format("yyyy/mm/dd"))
+   	    </div>
+    </div>
 
 }
