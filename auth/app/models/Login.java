@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import util.LoginUtils;
 
 public class Login {
 
@@ -27,27 +28,14 @@ public class Login {
 				new Model.Finder<Long, Admin>(Long.class, Admin.class);
 		String hashedPassword = "";
 		if (password != null){
-			hashedPassword = sha512(password);
+			hashedPassword = LoginUtils.sha512(password);
 		}
 		return find.where()
 				.eq("username", username)
 				.eq("password", hashedPassword)
 				.findUnique();
 	}
-	// ハッシュ化
-	//
-	public static String sha512(String message) throws NoSuchAlgorithmException{
-		// 512ビット長のSHA形式
-		MessageDigest md = MessageDigest.getInstance("SHA-512");
-		StringBuffer sb = new StringBuffer();
-		md.update(message.getBytes());
-		byte[] mb = md.digest();
-		for(byte m : mb){
-			String hex = String.format("%02x", m);
-			sb.append(hex);
-		}
-		return sb.toString();
-	}
+
 	
 	// Getter Setter
 	public String getUsername() {

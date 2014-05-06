@@ -1,0 +1,36 @@
+@(form1: play.data.Form[models.Admin])
+
+<html>
+    <head>
+        <title>登録画面</title>
+        <style type="text/css">
+            body { background-color: #ccc; padding: 20px; }
+            h1 { color: #fff; }
+            input, button { padding: 4px 8px; height: 3em; }
+            .error { color: #933; }
+            .login {
+                border: 1px solid #aaa;
+                padding: 10px 14px;
+                margin-top: 10px;
+                background-color: #fff;
+                width: 300px
+            }
+        </style>
+    </head>
+    <body>
+        <header><h1>登録画面</h1></header>
+        
+		@helper.form(action = routes.Application.save()){
+			@helper.CSRF.formField
+			@if(form1.hasGlobalErrors){
+				<p class="error">@form1.globalError.message</p>
+			}
+			<div class="login">
+				<p><input type="text" name="username" placeholder="登録するユーザ名" value="@form1("username").value"></p>
+				<p><input type="password" name="password" placeholder="パスワード"></p>
+				<p><button type="submit">登録</button></p>
+			</div>
+		}        
+
+    </body>
+</html>

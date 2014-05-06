@@ -17,10 +17,10 @@ public class Admin extends Model{
 	@Id
 	public Long id;
 	
-	@Required
+	@Required(message="必須項目です")
 	public String username;
 	
-	@Required
+	@Required(message="必須項目です")
 	public String password;
 
 	public Long getId() {
