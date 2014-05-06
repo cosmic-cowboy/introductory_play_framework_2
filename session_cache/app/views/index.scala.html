@@ -1,4 +1,4 @@
-@(sessionText: String, cookieName:String, cookieValue:String, form1: Form[Application.SampleForm])
+@(sessionText: String, cookieName:String, cookieValue:String, sendMail:Boolean, form1: play.data.Form[Application.SampleForm])
 @import helper._
 @main("Sample Page") {
 
@@ -17,16 +17,27 @@
 			'_label -> "cookie(myName)に入れる値",
 			'_help -> "cookie(myName)に入れる値を入力してください"
 		))
+		
+    	@(checkbox (
+    		field = form1("sendMail"),
+			'_label -> "お知らせメールを送りますか",
+			'_help -> "お知らせメールを受ける場合はチェックしてください。"
+    	
+    	))
 		<input type="submit">
 	}
 
-    <h1>セッションの値とクッキーの値</h1>
+    <h3>セッションの値</h3>
     <p>セッションの値：@sessionText</p>
     
+    <h3>クッキーの値</h3>
     <p>cookieの名前：@cookieName</p>
     <p>cookieの値：@cookieValue</p>
     <p>※cookieは30秒で切れます</p>
     <p>※discardCookieと入力するとcookieが削除されます</p>
+
+    <h3>お知らせメールを受け取る</h3>
+    <p>セッションの値：@sendMail</p>
 	
 }
 

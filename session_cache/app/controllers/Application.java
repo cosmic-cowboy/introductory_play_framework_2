@@ -1,11 +1,15 @@
 package controllers;
 
-import static play.data.Form.form;
+
+import java.util.concurrent.Callable;
+
+import play.cache.Cache;
 import play.data.Form;
 import play.libs.F.Option;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import utils.ConfigUtil;
 import utils.OptionUtil;
 import views.html.*;
 
@@ -15,10 +19,11 @@ public class Application extends Controller {
 	public static class SampleForm {
 		public String sessionInput;
 		public String cookieInput;
+		public boolean sendMail;
 	}
 	
     public static Result index() {
-    	Form<SampleForm> f = form(SampleForm.class);
+
     	// セッションから値の取得
     	Option<String> sessionOpt = OptionUtil.applyWithString(session("sessionText"));
 
@@ -32,11 +37,35 @@ public class Application extends Controller {
     		cookieNameOpt = OptionUtil.applyWithString("");
     		cookieValueOpt = OptionUtil.applyWithString("");
     	}
+    	
+    	Boolean sendMail = false;
+    	// キャッシュの取得
+    	try {
+        	sendMail = Cache.getOrElse("sendMail", 
+					new Callable<Boolean>(){
+						@Override
+						public Boolean call() throws Exception {
+							return new Boolean(ConfigUtil.get("send.mail").getOrElse("false"));
+						}    			
+					}, 300 * 1000
+		    	);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	// フォームの初期値設定
+    	SampleForm sf = new SampleForm();
+    	sf.sendMail = sendMail;
+    	Form<SampleForm> form = new Form(SampleForm.class).fill(sf);
+
+    	// Resultの返却
         return ok(index.render(
         		sessionOpt.getOrElse("セッションがない"), 
         		cookieNameOpt.getOrElse("独自実装のcookieが設定されていない"), 
         		cookieValueOpt.getOrElse("独自実装のcookieが設定されていない"),
-        		f));
+        		sendMail,
+        		form));
     }
 
     public static Result send(){
@@ -48,6 +77,7 @@ public class Application extends Controller {
     	if(!f.hasErrors()){
 	    	Option<String> sessionInputOpt = OptionUtil.applyWithString(f.get().sessionInput);
 	    	Option<String> cookieInputOpt = OptionUtil.applyWithString(f.get().cookieInput);
+	    	boolean sendMail = f.get().sendMail;
 	
 	    	// こんなことは普通しませんが...
 	    	// セッションに追加する
@@ -57,12 +87,14 @@ public class Application extends Controller {
 	    	if(cookieInput.equals("discardCookie")){
 		    	response().discardCookie("myName");	    			    		
 	    	} else {
-		    	response().setCookie("myName", cookieInput, 30);	    		
+		    	response().setCookie("myName", cookieInput, 30 * 1000);	    		
 	    	}
+	    	// キャッシュの値を期限付きで設定
+	    	Cache.set("sendMail", sendMail, 30 * 1000);
 	    	
 	    	return redirect(controllers.routes.Application.index());
     	} else {
-    		return badRequest(index.render("エラー","エラー","エラー", f));
+    		return badRequest(index.render("エラー","エラー","エラー",false, f));
     	}
     }
 
